@@ -88,33 +88,6 @@ print(f"Accuracy of the stacking model: {accuracy * 100:.2f}%")
 ![image](https://github.com/user-attachments/assets/42fe470d-87bc-481a-90d5-145aeae689fd)
 
 
-## Making Predictions
-
-```python
-def get_user_input():
-    age = float(input("Enter Age: "))
-    ptgender = int(input("Enter Gender (0 = Male, 1 = Female): "))
-    fdg = float(input("Enter FDG value: "))
-    pib = float(input("Enter PIB value: "))
-    mmse = float(input("Enter MMSE score: "))
-    ptmarry = int(input("Enter Marital Status (0=Married, 1=Divorced, 2=Widowed, 3=Never married, 4=Unknown): "))
-    apoe4 = int(input("Enter APOE4 allele count (0, 1, or 2): "))
-
-    input_data = np.array([[age, ptgender, fdg, pib, mmse, ptmarry, apoe4]])
-    return input_data
-
-# Get user input
-user_input = get_user_input()
-
-# Make prediction
-prediction = stacking_model.predict(user_input)
-probabilities = stacking_model.predict_proba(user_input)
-
-# Display results
-print(f"Predicted class (0 = Normal, 1 = Dementia): {prediction[0]}")
-print(f"Probability for each class: {probabilities[0]}")
-```
-
 # 2. Alzheimer's Detection Using MRI Scans
 
 ## Dependencies
