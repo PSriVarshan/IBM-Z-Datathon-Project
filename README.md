@@ -1,5 +1,5 @@
 # IBM-Z-Datathon-Project
-# Alzheimer's Detection Using Biomarkers
+# 1. Alzheimer's Detection Using Biomarkers
 
 ## Dependencies
 
@@ -73,6 +73,7 @@ stacking_model = StackingClassifier(estimators=base_learners, final_estimator=Lo
 # Train the stacking model
 stacking_model.fit(X_train, y_train)
 ```
+![image](https://github.com/user-attachments/assets/4ad4ff2b-49f4-41b7-9ba2-da26c4ea156d)
 
 ## Model Evaluation
 
@@ -84,6 +85,8 @@ y_pred = stacking_model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Accuracy of the stacking model: {accuracy * 100:.2f}%")
 ```
+![image](https://github.com/user-attachments/assets/42fe470d-87bc-481a-90d5-145aeae689fd)
+
 
 ## Making Predictions
 
@@ -111,7 +114,3 @@ probabilities = stacking_model.predict_proba(user_input)
 print(f"Predicted class (0 = Normal, 1 = Dementia): {prediction[0]}")
 print(f"Probability for each class: {probabilities[0]}")
 ```
-
-## Screenshot
-
-![Alzheimer's Detection Model Output](https://example.com/path/to/your/screenshot.png)
