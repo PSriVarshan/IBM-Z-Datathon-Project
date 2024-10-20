@@ -385,6 +385,10 @@ model = SVC(kernel='rbf', class_weight='balanced', probability=True, random_stat
 # Fit the model
 model.fit(X_train, y_train)
 ```
+
+![image](https://github.com/user-attachments/assets/bd047355-2036-488f-93d6-d6ca801d7a52)
+
+
 ## Make predictions and Evaluating the model
 
 ```py
@@ -400,7 +404,14 @@ y_prob = model.predict_proba(X_test)[:, 1]   # Probability estimates for the pos
 # Evaluate the model
 print(f"Accuracy: {accuracy_score(y_test, y_pred)}")
 print(classification_report(y_test, y_pred))
+
+roc_auc = roc_auc_score(y_test, y_prob)  
+print(f"ROC AUC Score: {roc_auc}")
 ```
+![image](https://github.com/user-attachments/assets/339ff0c4-4b2a-464a-ab7a-fee76a623a5f)
+
+![image](https://github.com/user-attachments/assets/c8a3148d-19c0-405a-9eb5-8695442dfe78)
+
 
 ## Make your own predictions
 
