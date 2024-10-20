@@ -491,4 +491,6 @@ if user_input_df is not None:
 
 ```
 
+### Conclusion 
 
+Thus revolutionizing Alzheimer’s disease management by integrating biomarkers and advanced MRI analysis for enhanced diagnostics. Alongside a hospital readmission prediction system and an AI chatbot, we empower patients and caregivers, promoting proactive health management. Committed to "Tech for Good," we aim to improve accessibility, accuracy, and overall quality of life for those affected by Alzheimer’s.
