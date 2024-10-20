@@ -1,7 +1,14 @@
 # IBM-Z-Datathon-Project
-# 1. Alzheimer's Detection Using Biomarkers
 
-## Dependencies
+##  AlzWELL : AI Models for Alzheimer's and Patient Readmission Prediction
+
+### Alzheimer's disease prediction using Bio markers 
+
+
+Alzheimer's Disease Prediction Using Biomarkers
+This model is designed to predict Alzheimer's disease status based on several biomarkers and patient demographic information. The dataset used contains both numerical and categorical features, which include patient age, gender, FDG and PIB biomarker values, MMSE (Mini-Mental State Examination) score, marital status, and the presence of the APOE4 gene, which is known to be a genetic risk factor for Alzheimer's.
+
+#### Dependencies
 
 ```python
 import pandas as pd
@@ -13,21 +20,21 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 ```
 
-## Data Preprocessing
+#### Data Preprocessing
 
 ```python
 # Load the dataset
 file_path = 'BIOM.csv'
 data = pd.read_csv(file_path)
 ```
-## Select relevant columns
+#### Select relevant columns
 
 ```py
 
 selected_columns = ["AGE", "PTGENDER", "FDG", "PIB", "MMSE", "PTMARRY", "APOE4", "DX"]
 data_selected = data[selected_columns]
 ```
-# Clean and preprocess data
+#### Clean and preprocess data
 
 ```py
 data_cleaned = data_selected.replace("NA", pd.NA)
@@ -62,7 +69,7 @@ y = data_cleaned['DX']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, random_state=42)
 ```
 
-## Model Training
+#### Model Training
 
 ```python
 # Define base learners
@@ -80,7 +87,7 @@ stacking_model.fit(X_train, y_train)
 ```
 ![image](https://github.com/user-attachments/assets/4ad4ff2b-49f4-41b7-9ba2-da26c4ea156d)
 
-## Model Evaluation
+#### Model Evaluation
 
 ```python
 # Make predictions
@@ -93,7 +100,7 @@ print(f"Accuracy of the stacking model: {accuracy * 100:.2f}%")
 ![image](https://github.com/user-attachments/assets/42fe470d-87bc-481a-90d5-145aeae689fd)
 
 
-## Making Predictions
+#### Making Predictions
 
 ```python
 def get_user_input():
@@ -120,9 +127,11 @@ print(f"Predicted class (0 = Normal, 1 = Dementia): {prediction[0]}")
 print(f"Probability for each class: {probabilities[0]}")
 ```
 
-# 2. Alzheimer's Detection Using MRI Scans
+### Alzheimer's Detection Using MRI Scans
 
-## Dependencies
+This model focuses on using Convolutional Neural Networks (CNNs) to classify MRI scans of patients and predict Alzheimer's disease status. The goal is to leverage deep learning techniques for effective image classification and early detection of Alzheimer's using MRI data. The model utilizes the TensorFlow/Keras library for creating and training the CNN model, and data augmentation is applied to improve generalization.
+
+#### Dependencies
 
 ```python
 import os
@@ -143,7 +152,7 @@ from tqdm import tqdm
 from imblearn.over_sampling import SMOTE
 ```
 
-## Reading the Dataset
+#### Reading the Dataset
 
 ```python
 import os
@@ -174,7 +183,7 @@ df = pd.DataFrame({'image': images, 'label': labels})
 # Display the DataFrame
 df
 ```
-## Displaying the Dataset
+#### Displaying the Dataset
 
 ```py
 plt.figure(figsize=(50,50))
@@ -189,7 +198,7 @@ for n,i in enumerate(np.random.randint(0,len(df),50)):
 ```
 ![image](https://github.com/user-attachments/assets/2aa7c0d8-0f12-48c6-86a4-61cf41b7707d)
 
-## Data Augmentation 
+#### Data Augmentation 
 
 ```py
 Size=(176,176)
@@ -220,7 +229,7 @@ plt.show()
 ```
 ![image](https://github.com/user-attachments/assets/4fd386a2-616d-4e6b-b72d-7abbbcb8a5b0)
 
-## Data Splitting for Training, Validation, and Testing
+#### Data Splitting for Training, Validation, and Testing
 
 ```py
 X_train, X_test1, y_train, y_test1 = train_test_split(train_data,train_labels, test_size=0.3, random_state=42,shuffle=True,stratify=train_labels)
@@ -234,7 +243,7 @@ print('y_val shape is ' , y_val.shape)
 ```
 
 
-## Model Training
+#### Model Training
 
 ```python
 model=keras.models.Sequential()
@@ -252,7 +261,7 @@ model.summary()
 ```
 ![image](https://github.com/user-attachments/assets/2bc060ac-414f-4325-8977-e38340dee6e4)
 
-## Model Architecture
+#### Model Architecture
 
 ```py
 tf.keras.utils.plot_model(model, to_file='model.png', show_shapes=True, show_layer_names=True,show_dtype=True,dpi=120)
@@ -260,7 +269,7 @@ tf.keras.utils.plot_model(model, to_file='model.png', show_shapes=True, show_lay
 ![model](https://github.com/user-attachments/assets/8af62913-6974-4484-91eb-24c1d5ed49ce)
 
 
-## Model Evaluation
+#### Model Evaluation
 
 ```python
 checkpoint_cb =ModelCheckpoint("CNN_model.h5", save_best_only=True)
@@ -286,7 +295,7 @@ plt.show()
 ```
 ![image](https://github.com/user-attachments/assets/4b938ae3-6c46-4d09-8dd9-47a97ca1980b)
 
-## Making Predictions
+#### Making Predictions
 
 ```python
 score, acc= model.evaluate(X_test,y_test)
@@ -309,9 +318,11 @@ for n,i in enumerate(np.random.randint(0,len(X_test),50)):
 ```
 ![image](https://github.com/user-attachments/assets/89783c6a-97b8-4708-87f8-e976b3212e1a)
 
-# 3.Readmission
+### Readmission
 
-## Importing required libraries
+This project implements a predictive model for hospital readmission using Support Vector Machines (SVM). The goal is to utilize patient demographic and clinical data to assess the likelihood of readmission, thereby enabling healthcare providers to implement preventive measures and improve patient outcomes.
+
+#### Importing required libraries
 
 ```py
 import pandas as pd
@@ -324,18 +335,18 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, roc_curve, auc, roc_auc_score
 ```
-## Reading the dataset
+#### Reading the dataset
 
 ```py
 df = pd.read_csv('readmission.csv')
 ```
-## Splitting into X (features) and y (target)
+#### Splitting into X (features) and y (target)
 ```py
 X = df[['AGE', 'PTGENDER', 'APOE4', 'MMSE', 'Days_Since_Last_Admission']]
 y = df['Readmission_Status']
 ```
 
-## Handling missing values for numeric features
+#### Handling missing values for numeric features
 
 ```py
 numeric_features = ['AGE', 'MMSE', 'Days_Since_Last_Admission']
@@ -344,7 +355,7 @@ imputer_num = SimpleImputer(strategy='mean')
 # Handling missing values for numeric features
 X.loc[:, numeric_features] = imputer_num.fit_transform(X[numeric_features])
 ```
-## Handling missing values for categorical features
+#### Handling missing values for categorical features
 
 ```py
 
@@ -356,7 +367,7 @@ X.loc[:, categorical_features] = imputer_cat.fit_transform(X[categorical_feature
 ```
 
 
-## One-hot encoding for categorical features
+#### One-hot encoding for categorical features
 ```py
 encoder = OneHotEncoder(drop='first')  # drop='first' to avoid dummy variable trap
 X_encoded = pd.DataFrame(encoder.fit_transform(X[categorical_features]).toarray(), 
@@ -364,7 +375,7 @@ X_encoded = pd.DataFrame(encoder.fit_transform(X[categorical_features]).toarray(
 ```
 
 
-## Merging encoded features with the numeric features
+#### Merging encoded features with the numeric features
 ```py
 X_final = pd.concat([X[numeric_features], X_encoded], axis=1)
 # Feature scaling for numeric features
@@ -373,13 +384,13 @@ X_final[numeric_features] = scaler.fit_transform(X_final[numeric_features])
 ```
 
 
-## Splitting the data into training and test sets
+#### Splitting the data into training and test sets
 
 ```py
 X_train, X_test, y_train, y_test = train_test_split(X_final, y, test_size=0.2, random_state=42)
 
 ```
-## Define the SVM model with RBF kernel
+#### Define the SVM model with RBF kernel
 ```py
 model = SVC(kernel='rbf', class_weight='balanced', probability=True, random_state=42)
 # Fit the model
@@ -389,7 +400,7 @@ model.fit(X_train, y_train)
 ![image](https://github.com/user-attachments/assets/bd047355-2036-488f-93d6-d6ca801d7a52)
 
 
-## Make predictions and Evaluating the model
+#### Make predictions and Evaluating the model
 
 ```py
 y_pred = model.predict(X_test)
@@ -413,7 +424,7 @@ print(f"ROC AUC Score: {roc_auc}")
 ![image](https://github.com/user-attachments/assets/c8a3148d-19c0-405a-9eb5-8695442dfe78)
 
 
-## Make your own predictions
+#### Make your own predictions
 
 ```py
 def get_user_input():
