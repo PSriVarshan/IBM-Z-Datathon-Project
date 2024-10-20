@@ -1,6 +1,6 @@
 # IBM-Z-Datathon-Project
 
-##  AlzWELL : AI Models for Alzheimer's and Patient Readmission Prediction
+##  AlzWELL: Bridging AI and Healthcare for Alzheimer's and Readmission Challenges
 
 ### Alzheimer's disease prediction using Bio markers 
 
