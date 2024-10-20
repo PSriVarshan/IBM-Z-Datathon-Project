@@ -19,12 +19,17 @@ from sklearn.metrics import accuracy_score
 # Load the dataset
 file_path = 'BIOM.csv'
 data = pd.read_csv(file_path)
+```
+## Select relevant columns
 
-# Select relevant columns
+```py
+
 selected_columns = ["AGE", "PTGENDER", "FDG", "PIB", "MMSE", "PTMARRY", "APOE4", "DX"]
 data_selected = data[selected_columns]
-
+```
 # Clean and preprocess data
+
+```py
 data_cleaned = data_selected.replace("NA", pd.NA)
 
 # Fill missing values
@@ -306,4 +311,162 @@ for n,i in enumerate(np.random.randint(0,len(X_test),50)):
 
 # 3.Readmission
 
-##
+## Importing required libraries
+
+```py
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.svm import SVC
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, roc_curve, auc, roc_auc_score
+```
+## Reading the dataset
+
+```py
+df = pd.read_csv('readmission.csv')
+```
+## Splitting into X (features) and y (target)
+```py
+X = df[['AGE', 'PTGENDER', 'APOE4', 'MMSE', 'Days_Since_Last_Admission']]
+y = df['Readmission_Status']
+```
+
+## Handling missing values for numeric features
+
+```py
+numeric_features = ['AGE', 'MMSE', 'Days_Since_Last_Admission']
+imputer_num = SimpleImputer(strategy='mean')
+
+# Handling missing values for numeric features
+X.loc[:, numeric_features] = imputer_num.fit_transform(X[numeric_features])
+```
+## Handling missing values for categorical features
+
+```py
+
+categorical_features = ['PTGENDER', 'APOE4']
+imputer_cat = SimpleImputer(strategy='most_frequent')
+
+# Handling missing values for categorical features
+X.loc[:, categorical_features] = imputer_cat.fit_transform(X[categorical_features])
+```
+
+
+## One-hot encoding for categorical features
+```py
+encoder = OneHotEncoder(drop='first')  # drop='first' to avoid dummy variable trap
+X_encoded = pd.DataFrame(encoder.fit_transform(X[categorical_features]).toarray(), 
+                         columns=encoder.get_feature_names_out(categorical_features))
+```
+
+
+## Merging encoded features with the numeric features
+```py
+X_final = pd.concat([X[numeric_features], X_encoded], axis=1)
+# Feature scaling for numeric features
+scaler = StandardScaler()
+X_final[numeric_features] = scaler.fit_transform(X_final[numeric_features])
+```
+
+
+## Splitting the data into training and test sets
+
+```py
+X_train, X_test, y_train, y_test = train_test_split(X_final, y, test_size=0.2, random_state=42)
+
+```
+## Define the SVM model with RBF kernel
+```py
+model = SVC(kernel='rbf', class_weight='balanced', probability=True, random_state=42)
+# Fit the model
+model.fit(X_train, y_train)
+```
+## Make predictions and Evaluating the model
+
+```py
+y_pred = model.predict(X_test)
+```
+
+```py
+# Making predictions
+y_pred = model.predict(X_test)
+y_prob = model.predict_proba(X_test)[:, 1]   # Probability estimates for the positive class
+
+
+# Evaluate the model
+print(f"Accuracy: {accuracy_score(y_test, y_pred)}")
+print(classification_report(y_test, y_pred))
+```
+
+## Make your own predictions
+
+```py
+def get_user_input():
+    """
+    This function prompts the user to input values for the required features
+    and returns a DataFrame with those values, formatted for the model.
+    """
+    try:
+        # Collect user inputs
+        age = float(input("Enter AGE: "))
+        ptgender = input("Enter PTGENDER (M/F): ").strip().upper()
+        apoe4 = int(input("Enter APOE4 (0 for negative, 1 for positive): "))
+        mmse = float(input("Enter MMSE (Mini-Mental State Examination score): "))
+        days_since_last_admission = float(input("Enter Days Since Last Admission: "))
+
+        # Validate categorical inputs
+        if ptgender not in ['M', 'F']:
+            raise ValueError("Invalid value for PTGENDER. Please enter 'M' or 'F'.")
+        if apoe4 not in [0, 1]:
+            raise ValueError("Invalid value for APOE4. Please enter 0 or 1.")
+        
+        # Create a dictionary to hold input data
+        input_data = {
+            'AGE': [age],
+            'PTGENDER': [ptgender],
+            'APOE4': [apoe4],
+            'MMSE': [mmse],
+            'Days_Since_Last_Admission': [days_since_last_admission]
+        }
+
+        # Convert dictionary to DataFrame
+        input_df = pd.DataFrame(input_data)
+
+        # Apply the same preprocessing as training data (scaling, one-hot encoding, etc.)
+        # Scaling numeric features
+        numeric_features = ['AGE', 'MMSE', 'Days_Since_Last_Admission']
+        input_df[numeric_features] = imputer_num.transform(input_df[numeric_features])
+        input_df[numeric_features] = scaler.transform(input_df[numeric_features])
+
+        # One-hot encoding for categorical variables
+        input_df = pd.get_dummies(input_df, columns=['PTGENDER', 'APOE4'], drop_first=True)
+
+        return input_df
+
+    except ValueError as e:
+        print(f"Error: {e}")
+        return None
+
+```
+
+```py
+# Get user input
+user_input_df = get_user_input()
+
+if user_input_df is not None:
+    # Predict the outcome (readmission) based on the user input
+    prediction = svm_model.predict(user_input_df)
+    prediction_prob = svm_model.predict_proba(user_input_df)[:, 1]
+    
+    if prediction[0] == 1:
+        print(f"The model predicts that the patient will be readmitted with a probability of {prediction_prob[0]:.2f}.")
+    else:
+        print(f"The model predicts that the patient will not be readmitted with a probability of {1 - prediction_prob[0]:.2f}.")
+
+```
+
+
