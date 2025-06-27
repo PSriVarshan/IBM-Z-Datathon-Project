@@ -1,5 +1,22 @@
 # AlzWELL: Bridging AI and Healthcare for Alzheimer's and Readmission Challenges
-# 1. Alzheimer's Detection Using Biomarkers
+
+## 1️⃣ Alzheimer's Detection Using Blood Biomarkers
+
+### 🔍 Objective
+Predict whether a patient has Alzheimer's or not using structured clinical biomarkers such as age, gender, FDG, PIB, MMSE scores, APOE4 alleles, and marital status.
+
+### 🏗️ What We Did
+- Preprocessed clinical tabular data by handling missing values, encoding categorical variables, and mapping diagnosis outcomes to binary classes (0 = Normal, 1 = Dementia).
+- Built an ensemble model using a **Stacking Classifier** combining:
+  - Random Forest
+  - Gradient Boosting
+  - Support Vector Machine (SVM)
+  - Logistic Regression as the meta-learner.
+
+### 🎯 Achievements
+- Achieved **92% accuracy** on the test dataset.
+- Provides an efficient early detection tool for Alzheimer's using only blood biomarkers.
+- Integrated a user-friendly prediction interface for real-time risk assessment.
 
 ## Dependencies
 
@@ -114,9 +131,27 @@ probabilities = stacking_model.predict_proba(user_input)
 print(f"Predicted class (0 = Normal, 1 = Dementia): {prediction[0]}")
 print(f"Probability for each class: {probabilities[0]}")
 ```
+---
+## 2️⃣ Alzheimer's Detection Using MRI Scans
 
-# 2. Alzheimer's Detection Using MRI Scans
+### 🔍 Objective
+Detect Alzheimer's disease based on MRI scans using a deep learning image classification model.
 
+### 🏗️ What We Did
+- Preprocessed MRI image datasets:
+  - Resized to (176x176).
+  - Label encoding.
+  - Class balancing using **SMOTE** to handle imbalanced data.
+- Built a **CNN model** with:
+  - Multiple convolutional layers.
+  - Pooling layers and dropout for regularization.
+- Applied **EarlyStopping** and **ModelCheckpoint** for training stability.
+
+### 🎯 Achievements
+- Achieved over **90% test accuracy** on MRI-based classification.
+- Provides a robust image-based diagnostic support tool.
+- Visualized predictions and performance metrics, including confusion matrices and learning curves.
+  
 ## Dependencies
 
 ```python
@@ -304,29 +339,48 @@ for n,i in enumerate(np.random.randint(0,len(X_test),50)):
 ```
 ![image](https://github.com/user-attachments/assets/89783c6a-97b8-4708-87f8-e976b3212e1a)
 
-# 3.Readmission
+---
 
-## Hospital Readmission Prediction (SVM Model)
-This module predicts whether an Alzheimer's patient will be readmitted within 30 days after discharge using a Support Vector Machine (SVM) classifier.
+## 3️⃣ Hospital Readmission Prediction
 
-🔹 Key Highlights:
-Input Features: Age, length of stay, prior admissions, diagnosis, medications, MMSE score, discharge type, caregiver support.
+### 🔍 Objective
+Predict whether an Alzheimer's patient will be readmitted within 30 days after discharge to assist healthcare providers in risk management.
 
-Model: SVM with hyperparameter tuning (GridSearchCV).
+### 🏗️ What We Did
+- Utilized features like:
+  - Age, length of stay, prior admissions, MMSE, medications, caregiver support, discharge type.
+- Applied:
+  - One-hot encoding, feature scaling, and **RFE (Recursive Feature Elimination)** for feature selection.
+- Trained a **Support Vector Machine (SVM)** with **GridSearchCV** for hyperparameter optimization.
 
-Preprocessing: One-hot encoding, scaling, and feature selection using RFE.
+### 🎯 Achievements
+- Achieved:
+  - **Accuracy:** 89%
+  - **F1-Score:** 0.88
+  - **ROC-AUC:** 0.90
+- Helps hospitals reduce readmission rates and personalize patient care strategies.
 
-Performance:
+---
 
-Accuracy: 89%
+## 🚀 Overall Impact
+- A comprehensive AI-powered healthcare pipeline combining:
+  - **Tabular data ML models**
+  - **MRI-based CNN image models**
+  - **Readmission risk prediction models**
+- Supports clinicians with early diagnosis, efficient resource management, and preventive care planning.
 
-F1-Score: 0.88
+---
 
-ROC-AUC: 0.90
+## 🛠️ Technologies Used
+- **Machine Learning:** scikit-learn, pandas, numpy
+- **Deep Learning:** TensorFlow, Keras
+- **Data Augmentation:** OpenCV, ImageDataGenerator, SMOTE
+- **Visualization:** Matplotlib, Seaborn
+- **Model Deployment:** (Future Scope) – Can extend with Streamlit, FastAPI, Spring AI
 
-🔹 Impact:
-Identifies high-risk patients before discharge.
+---
 
-Supports hospitals in reducing readmission rates.
-
-Enables personalized care planning and timely interventions.
+## 🤖 Future Improvements
+- Integration with web or cloud-based applications (AWS, Spring Boot Microservices).
+- Expand to multi-modal models combining text-based EMR data and images.
+- Deploy as a full-stack AI healthcare assistant.
