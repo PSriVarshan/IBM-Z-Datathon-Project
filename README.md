@@ -1,4 +1,4 @@
-# IBM-Z-Datathon-Project
+# AlzWELL: Bridging AI and Healthcare for Alzheimer's and Readmission Challenges
 # 1. Alzheimer's Detection Using Biomarkers
 
 ## Dependencies
@@ -306,4 +306,27 @@ for n,i in enumerate(np.random.randint(0,len(X_test),50)):
 
 # 3.Readmission
 
-##
+## Hospital Readmission Prediction (SVM Model)
+This module predicts whether an Alzheimer's patient will be readmitted within 30 days after discharge using a Support Vector Machine (SVM) classifier.
+
+🔹 Key Highlights:
+Input Features: Age, length of stay, prior admissions, diagnosis, medications, MMSE score, discharge type, caregiver support.
+
+Model: SVM with hyperparameter tuning (GridSearchCV).
+
+Preprocessing: One-hot encoding, scaling, and feature selection using RFE.
+
+Performance:
+
+Accuracy: 89%
+
+F1-Score: 0.88
+
+ROC-AUC: 0.90
+
+🔹 Impact:
+Identifies high-risk patients before discharge.
+
+Supports hospitals in reducing readmission rates.
+
+Enables personalized care planning and timely interventions.
